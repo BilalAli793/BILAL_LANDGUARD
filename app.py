@@ -4,6 +4,7 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from geopy.geocoders import Nominatim
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Bilal’s Sentinel", page_icon="⚠️", layout="wide")
 
@@ -37,7 +38,9 @@ translations = {
         "status3": "Stay alert during heavy rainfall",
         "map": "🗺️ Location Map",
         "map_info": "Enter a valid location name to see the map.",
-        "lang": "Select Language"
+        "lang": "Select Language",
+        "voice_danger": "Warning! You are in danger. High risk of landslide detected. Please take immediate action.",
+        "voice_safe": "You are safe. The situation is currently stable. Keep monitoring."
     },
     "Hindi": {
         "title": "⚠️ बिलाल्स सेंटिनल",
@@ -67,7 +70,9 @@ translations = {
         "status3": "भारी बारिश के दौरान सतर्क रहें",
         "map": "🗺️ लोकेशन मैप",
         "map_info": "मैप देखने के लिए मान्य लोकेशन नाम दर्ज करें।",
-        "lang": "भाषा चुनें"
+        "lang": "भाषा चुनें",
+        "voice_danger": "चेतावनी! आप खतरे में हैं। लैंडस्लाइड का उच्च जोखिम पाया गया है। कृपया तुरंत कार्रवाई करें।",
+        "voice_safe": "आप सुरक्षित हैं। स्थिति वर्तमान में स्थिर है। निगरानी जारी रखें।"
     },
     "Bengali": {
         "title": "⚠️ বিলাল’স সেন্টিনেল",
@@ -97,7 +102,9 @@ translations = {
         "status3": "ভারী বৃষ্টির সময় সতর্ক থাকুন",
         "map": "🗺️ লোকেশন ম্যাপ",
         "map_info": "ম্যাপ দেখতে একটি বৈধ লোকেশন নাম লিখুন।",
-        "lang": "ভাষা নির্বাচন করুন"
+        "lang": "ভাষা নির্বাচন করুন",
+        "voice_danger": "সতর্কতা! আপনি বিপদে আছেন। ভূমিধসের উচ্চ ঝুঁকি সনাক্ত হয়েছে।",
+        "voice_safe": "আপনি নিরাপদ। পরিস্থিতি বর্তমানে স্থিতিশীল।"
     },
     "Tamil": {
         "title": "⚠️ பிலால்’ஸ் சென்டினல்",
@@ -127,7 +134,9 @@ translations = {
         "status3": "கனமழையின் போது விழிப்புடன் இருங்கள்",
         "map": "🗺️ இட வரைபடம்",
         "map_info": "வரைபடத்தைக் காண சரியான இடப் பெயரை உள்ளிடவும்.",
-        "lang": "மொழியைத் தேர்ந்தெடுக்கவும்"
+        "lang": "மொழியைத் தேர்ந்தெடுக்கவும்",
+        "voice_danger": "எச்சரிக்கை! நீங்கள் ஆபத்தில் இருக்கிறீர்கள். நிலச்சரிவு அதிக அபாயம்.",
+        "voice_safe": "நீங்கள் பாதுகாப்பாக இருக்கிறீர்கள். நிலைமை நிலையானது."
     },
     "Telugu": {
         "title": "⚠️ బిలాల్’స్ సెంటినెల్",
@@ -157,7 +166,9 @@ translations = {
         "status3": "భారీ వర్షాల సమయంలో అప్రమత్తంగా ఉండండి",
         "map": "🗺️ లొకేషన్ మ్యాప్",
         "map_info": "మ్యాప్ చూడటానికి సరైన లొకేషన్ పేరు నమోదు చేయండి.",
-        "lang": "భాషను ఎంచుకోండి"
+        "lang": "భాషను ఎంచుకోండి",
+        "voice_danger": "హెచ్చరిక! మీరు ప్రమాదంలో ఉన్నారు. భూపాతం అధిక ప్రమాదం.",
+        "voice_safe": "మీరు సురక్షితంగా ఉన్నారు. పరిస్థితి స్థిరంగా ఉంది."
     },
     "Marathi": {
         "title": "⚠️ बिलाल्स सेंटिनल",
@@ -187,7 +198,9 @@ translations = {
         "status3": "मुसळधार पावसाच्या वेळी सतर्क रहा",
         "map": "🗺️ स्थान नकाशा",
         "map_info": "नकाशा पाहण्यासाठी वैध स्थान नाव प्रविष्ट करा.",
-        "lang": "भाषा निवडा"
+        "lang": "भाषा निवडा",
+        "voice_danger": "चेतावणी! तुम्ही धोक्यात आहात. भूस्खलनाचा उच्च धोका आहे.",
+        "voice_safe": "तुम्ही सुरक्षित आहात. परिस्थिती सध्या स्थिर आहे."
     }
 }
 
@@ -286,6 +299,17 @@ if st.session_state.predicted:
         """)
         map_color = "red"
         risk_text = "HIGH RISK"
+
+        # Voice Alert - Danger
+        voice_text = t["voice_danger"]
+        components.html(f"""
+            <script>
+                var msg = new SpeechSynthesisUtterance("{voice_text}");
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
+            </script>
+        """, height=0)
+
     else:
         st.success(t["low_risk"])
         st.metric(t["probability"], f"{st.session_state.probability:.1f}%")
@@ -297,6 +321,16 @@ if st.session_state.predicted:
         """)
         map_color = "green"
         risk_text = "LOW RISK"
+
+        # Voice Alert - Safe
+        voice_text = t["voice_safe"]
+        components.html(f"""
+            <script>
+                var msg = new SpeechSynthesisUtterance("{voice_text}");
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
+            </script>
+        """, height=0)
 
     # Map
     st.subheader(t["map"])
