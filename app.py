@@ -4,15 +4,14 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from geopy.geocoders import Nominatim
-import base64
 
-st.set_page_config(page_title="AI Landslide Early Warning System", page_icon="⚠️", layout="wide")
+st.set_page_config(page_title="Bilal’s Sentinel", page_icon="⚠️", layout="wide")
 
 # ====================== TRANSLATIONS ======================
 translations = {
     "English": {
-        "title": "⚠️ AI Landslide Early Warning System",
-        "subtitle": "SIH 2026 Prototype | Location Based Disaster Management",
+        "title": "⚠️ Bilal’s Sentinel",
+        "subtitle": "AI Landslide Early Warning System | By Bilal Ali",
         "about": "About Project",
         "about_text": "Type any location and get landslide risk prediction with map.",
         "location": "📍 Enter Any Location",
@@ -41,8 +40,8 @@ translations = {
         "lang": "Select Language"
     },
     "Hindi": {
-        "title": "⚠️ एआई लैंडस्लाइड अर्ली वार्निंग सिस्टम",
-        "subtitle": "SIH 2026 प्रोटोटाइप | लोकेशन बेस्ड डिजास्टर मैनेजमेंट",
+        "title": "⚠️ बिलाल्स सेंटिनल",
+        "subtitle": "एआई लैंडस्लाइड अर्ली वार्निंग सिस्टम | बिलाल अली द्वारा",
         "about": "प्रोजेक्ट के बारे में",
         "about_text": "कोई भी लोकेशन टाइप करें और मैप के साथ लैंडस्लाइड रिस्क प्रेडिक्शन पाएं।",
         "location": "📍 कोई भी लोकेशन दर्ज करें",
@@ -71,8 +70,8 @@ translations = {
         "lang": "भाषा चुनें"
     },
     "Bengali": {
-        "title": "⚠️ এআই ল্যান্ডস্লাইড আর্লি ওয়ার্নিং সিস্টেম",
-        "subtitle": "SIH 2026 প্রোটোটাইপ | লোকেশন ভিত্তিক দুর্যোগ ব্যবস্থাপনা",
+        "title": "⚠️ বিলাল’স সেন্টিনেল",
+        "subtitle": "এআই ল্যান্ডস্লাইড আর্লি ওয়ার্নিং সিস্টেম | বিলাল আলি দ্বারা",
         "about": "প্রজেক্ট সম্পর্কে",
         "about_text": "যেকোনো লোকেশন টাইপ করুন এবং ম্যাপসহ ল্যান্ডস্লাইড ঝুঁকির পূর্বাভাস পান।",
         "location": "📍 যেকোনো লোকেশন লিখুন",
@@ -101,8 +100,8 @@ translations = {
         "lang": "ভাষা নির্বাচন করুন"
     },
     "Tamil": {
-        "title": "⚠️ AI நிலச்சரிவு முன்னெச்சரிக்கை அமைப்பு",
-        "subtitle": "SIH 2026 முன்மாதிரி | இட அடிப்படையிலான பேரிடர் மேலாண்மை",
+        "title": "⚠️ பிலால்’ஸ் சென்டினல்",
+        "subtitle": "AI நிலச்சரிவு முன்னெச்சரிக்கை அமைப்பு | பிலால் அலி",
         "about": "திட்டம் பற்றி",
         "about_text": "எந்த இடத்தையும் உள்ளிட்டு வரைபடத்துடன் நிலச்சரிவு அபாய முன்னறிவிப்பைப் பெறுங்கள்.",
         "location": "📍 எந்த இடத்தையும் உள்ளிடவும்",
@@ -131,8 +130,8 @@ translations = {
         "lang": "மொழியைத் தேர்ந்தெடுக்கவும்"
     },
     "Telugu": {
-        "title": "⚠️ AI భూపాతం ముందస్తు హెచ్చరిక వ్యవస్థ",
-        "subtitle": "SIH 2026 ప్రోటోటైప్ | లొకేషన్ ఆధారిత విపత్తు నిర్వహణ",
+        "title": "⚠️ బిలాల్’స్ సెంటినెల్",
+        "subtitle": "AI భూపాతం ముందస్తు హెచ్చరిక వ్యవస్థ | బిలాల్ అలి",
         "about": "ప్రాజెక్ట్ గురించి",
         "about_text": "ఏదైనా లొకేషన్ టైప్ చేసి మ్యాప్‌తో భూపాత ప్రమాద అంచనా పొందండి.",
         "location": "📍 ఏదైనా లొకేషన్ నమోదు చేయండి",
@@ -161,8 +160,8 @@ translations = {
         "lang": "భాషను ఎంచుకోండి"
     },
     "Marathi": {
-        "title": "⚠️ एआय भूस्खलन पूर्व चेतावणी प्रणाली",
-        "subtitle": "SIH 2026 प्रोटोटाइप | स्थान आधारित आपत्ती व्यवस्थापन",
+        "title": "⚠️ बिलाल्स सेंटिनल",
+        "subtitle": "एआय भूस्खलन पूर्व चेतावणी प्रणाली | बिलाल अली",
         "about": "प्रकल्पाबद्दल",
         "about_text": "कोणतेही स्थान टाइप करा आणि नकाशा सह भूस्खलन जोखीम अंदाज मिळवा.",
         "location": "📍 कोणतेही स्थान प्रविष्ट करा",
@@ -213,6 +212,7 @@ model.fit(X, y)
 st.sidebar.header(t["about"])
 st.sidebar.write(t["about_text"])
 st.sidebar.write("**Problem:** SIH26001")
+st.sidebar.write("Developed by **Bilal Ali**")
 st.sidebar.write("CSE Department | KMCLU")
 
 # Session state
@@ -235,7 +235,7 @@ location_name = st.text_input(t["placeholder"], placeholder=t["placeholder"])
 
 if location_name:
     try:
-        geolocator = Nominatim(user_agent="landslide_app")
+        geolocator = Nominatim(user_agent="bilal_sentinel")
         location = geolocator.geocode(location_name, timeout=10)
         if location:
             st.session_state.lat = location.latitude
@@ -286,13 +286,6 @@ if st.session_state.predicted:
         """)
         map_color = "red"
         risk_text = "HIGH RISK"
-        
-        # Alarm sound
-        try:
-            st.audio("alarm.mp3", format="audio/mp3", start_time=0)
-            st.markdown("🔊 **Alarm Playing...**")
-        except:
-            st.warning("Alarm sound file not found")
     else:
         st.success(t["low_risk"])
         st.metric(t["probability"], f"{st.session_state.probability:.1f}%")
@@ -322,4 +315,4 @@ if st.session_state.predicted:
         st.info(t["map_info"])
 
 st.markdown("---")
-st.caption("AI Landslide Early Warning System | SIH 2026 | CSE Department, KMCLU")
+st.caption("Bilal’s Sentinel | AI Landslide Early Warning System | Developed by Bilal Ali | SIH 2026")
