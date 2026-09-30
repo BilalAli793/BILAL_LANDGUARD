@@ -298,6 +298,17 @@ else:
                                 ["English", "Hindi", "Bengali", "Tamil", "Telugu", "Marathi"])
     t = translations[lang]
 
+    # Language codes for proper accent
+    lang_codes = {
+        "English": "en-IN",
+        "Hindi": "hi-IN",
+        "Bengali": "bn-IN",
+        "Tamil": "ta-IN",
+        "Telugu": "te-IN",
+        "Marathi": "mr-IN"
+    }
+    current_lang_code = lang_codes.get(lang, "en-IN")
+
     st.title(t["title"])
     st.markdown(f"**{t['subtitle']}**")
     st.markdown("---")
@@ -368,10 +379,12 @@ else:
             map_color = "red"
             risk_text = "HIGH RISK"
 
+            # Voice Alert with correct accent
             components.html(f"""
                 <script>
-                    var msg = new SpeechSynthesisUtterance("{t['voice_danger']}");
-                    msg.rate = 0.9;
+                    var msg = new SpeechSynthesisUtterance(`{t['voice_danger']}`);
+                    msg.lang = "{current_lang_code}";
+                    msg.rate = 0.85;
                     window.speechSynthesis.speak(msg);
                 </script>
             """, height=0)
@@ -388,10 +401,12 @@ else:
             map_color = "green"
             risk_text = "LOW RISK"
 
+            # Voice Alert with correct accent
             components.html(f"""
                 <script>
-                    var msg = new SpeechSynthesisUtterance("{t['voice_safe']}");
-                    msg.rate = 0.9;
+                    var msg = new SpeechSynthesisUtterance(`{t['voice_safe']}`);
+                    msg.lang = "{current_lang_code}";
+                    msg.rate = 0.85;
                     window.speechSynthesis.speak(msg);
                 </script>
             """, height=0)
