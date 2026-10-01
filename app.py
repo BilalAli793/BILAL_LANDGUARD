@@ -1,8 +1,6 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 import streamlit as st
-import folium
-from streamlit_folium import st_folium
 from geopy.geocoders import Nominatim
 import streamlit.components.v1 as components
 
@@ -53,7 +51,7 @@ translations = {
         "status1": "Conditions are within safe limits",
         "status2": "Continue regular monitoring",
         "status3": "Stay alert during heavy rainfall",
-        "map": "🗺️ Location Map",
+        "map": "🗺️ Location Map (Google Maps)",
         "map_info": "Enter a valid location name to see the map.",
         "voice_danger": "Warning! High risk of landslide detected. Please take immediate action.",
         "voice_safe": "You are safe. Situation is currently stable."
@@ -82,7 +80,7 @@ translations = {
         "status1": "स्थितियां सुरक्षित सीमा के भीतर हैं",
         "status2": "नियमित निगरानी जारी रखें",
         "status3": "भारी बारिश के दौरान सतर्क रहें",
-        "map": "🗺️ लोकेशन मैप",
+        "map": "🗺️ लोकेशन मैप (Google Maps)",
         "map_info": "मैप देखने के लिए मान्य लोकेशन नाम दर्ज करें।",
         "voice_danger": "चेतावनी! लैंडस्लाइड का उच्च जोखिम पाया गया है। कृपया तुरंत कार्रवाई करें।",
         "voice_safe": "आप सुरक्षित हैं। स्थिति वर्तमान में स्थिर है।"
@@ -111,7 +109,7 @@ translations = {
         "status1": "পরিস্থিতি নিরাপদ সীমার মধ্যে আছে",
         "status2": "নিয়মিত পর্যবেক্ষণ চালিয়ে যান",
         "status3": "ভারী বৃষ্টির সময় সতর্ক থাকুন",
-        "map": "🗺️ লোকেশন ম্যাপ",
+        "map": "🗺️ লোকেশন ম্যাপ (Google Maps)",
         "map_info": "ম্যাপ দেখতে একটি বৈধ লোকেশন নাম লিখুন।",
         "voice_danger": "সতর্কতা! ভূমিধসের উচ্চ ঝুঁকি সনাক্ত হয়েছে।",
         "voice_safe": "আপনি নিরাপদ। পরিস্থিতি বর্তমানে স্থিতিশীল।"
@@ -140,7 +138,7 @@ translations = {
         "status1": "நிலைமைகள் பாதுகாப்பான வரம்புக்குள் உள்ளன",
         "status2": "வழக்கமான கண்காணிப்பைத் தொடரவும்",
         "status3": "கனமழையின் போது விழிப்புடன் இருங்கள்",
-        "map": "🗺️ இட வரைபடம்",
+        "map": "🗺️ இட வரைபடம் (Google Maps)",
         "map_info": "வரைபடத்தைக் காண சரியான இடப் பெயரை உள்ளிடவும்.",
         "voice_danger": "எச்சரிக்கை! நிலச்சரிவு அதிக அபாயம் கண்டறியப்பட்டது.",
         "voice_safe": "நீங்கள் பாதுகாப்பாக இருக்கிறீர்கள். நிலைமை நிலையானது."
@@ -169,7 +167,7 @@ translations = {
         "status1": "పరిస్థితులు సురక్షిత పరిమితుల్లో ఉన్నాయి",
         "status2": "క్రమం తప్పకుండా పర్యవేక్షణ కొనసాగించండి",
         "status3": "భారీ వర్షాల సమయంలో అప్రమత్తంగా ఉండండి",
-        "map": "🗺️ లొకేషన్ మ్యాప్",
+        "map": "🗺️ లొకేషన్ మ్యాప్ (Google Maps)",
         "map_info": "మ్యాప్ చూడటానికి సరైన లొకేషన్ పేరు నమోదు చేయండి.",
         "voice_danger": "హెచ్చరిక! భూపాతం అధిక ప్రమాదం గుర్తించబడింది.",
         "voice_safe": "మీరు సురక్షితంగా ఉన్నారు. పరిస్థితి స్థిరంగా ఉంది."
@@ -198,7 +196,7 @@ translations = {
         "status1": "परिस्थिती सुरक्षित मर्यादेत आहे",
         "status2": "नियमित निरीक्षण सुरू ठेवा",
         "status3": "मुसळधार पावसाच्या वेळी सतर्क रहा",
-        "map": "🗺️ स्थान नकाशा",
+        "map": "🗺️ स्थान नकाशा (Google Maps)",
         "map_info": "नकाशा पाहण्यासाठी वैध स्थान नाव प्रविष्ट करा.",
         "voice_danger": "चेतावणी! भूस्खलनाचा उच्च धोका आढळला आहे.",
         "voice_safe": "तुम्ही सुरक्षित आहात. परिस्थिती सध्या स्थिर आहे."
@@ -243,7 +241,7 @@ if page == "🏠 Home":
 
     c1, c2, c3 = st.columns(3)
     with c1:
-        st.info("📍 **Location Based**\n\nEnter any place and get risk analysis with map.")
+        st.info("📍 **Location Based**\n\nEnter any place and get risk analysis with Google Map.")
     with c2:
         st.success("🤖 **AI Prediction**\n\nRandom Forest model using rainfall, slope, moisture & elevation.")
     with c3:
@@ -263,7 +261,7 @@ if page == "🏠 Home":
     2. Enter a location (example: Gangtok, Darjeeling, Manali)  
     3. Adjust Rainfall, Slope, Soil Moisture, Elevation  
     4. Click **Predict Risk & Show Map**  
-    5. Read the result + map + safety guidance  
+    5. See result + Google Map + safety guidance  
     """)
 
     st.success("👉 Open **Risk Prediction** page from the left sidebar to try the system.")
@@ -297,9 +295,9 @@ elif page == "🔍 Risk Prediction":
                 st.session_state.loc_name = location_name
                 st.success(f"✅ {location.address}")
             else:
-                st.warning("Location not found")
+                st.warning("Location not found. Try simple name: Gangtok, Manali, Shimla, Darjeeling")
         except Exception:
-            st.warning("Could not fetch location")
+            st.warning("Could not fetch location. Check internet.")
 
     st.markdown("---")
     st.subheader(t["params"])
@@ -335,7 +333,6 @@ elif page == "🔍 Risk Prediction":
             - {t['action3']}
             - {t['action4']}
             """)
-            map_color = "red"
             risk_text = "HIGH RISK"
 
             components.html(f"""
@@ -355,7 +352,6 @@ elif page == "🔍 Risk Prediction":
             - {t['status2']}
             - {t['status3']}
             """)
-            map_color = "green"
             risk_text = "LOW RISK"
 
             components.html(f"""
@@ -367,7 +363,7 @@ elif page == "🔍 Risk Prediction":
                 </script>
             """, height=0)
 
-        # ====================== GOOGLE MAP ======================
+        # ====================== GOOGLE MAPS ======================
         st.subheader(t["map"])
         if st.session_state.lat and st.session_state.lon:
             lat = st.session_state.lat
@@ -377,15 +373,13 @@ elif page == "🔍 Risk Prediction":
             <iframe
                 width="100%"
                 height="450"
-                style="border:0; border-radius: 10px;"
+                style="border:0; border-radius: 12px;"
                 loading="lazy"
                 allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade"
                 src="https://www.google.com/maps?q={lat},{lon}&hl=en&z=14&output=embed">
             </iframe>
             """
-            st.components.v1.html(map_html, height=470)
-
+            components.html(map_html, height=470)
             st.caption(f"📍 Coordinates: {lat:.5f}, {lon:.5f} | Risk: {risk_text}")
         else:
             st.info(t["map_info"])
