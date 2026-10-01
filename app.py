@@ -428,3 +428,4 @@ else:
 
     st.markdown("---")
     st.caption("Bilal’s Sentinel | Developed by Bilal Ali | SIH 2026")
+
