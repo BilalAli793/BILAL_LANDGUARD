@@ -367,23 +367,26 @@ elif page == "🔍 Risk Prediction":
                 </script>
             """, height=0)
 
+        # ====================== GOOGLE MAP ======================
         st.subheader(t["map"])
         if st.session_state.lat and st.session_state.lon:
-            m = folium.Map(location=[st.session_state.lat, st.session_state.lon], zoom_start=12)
-            folium.Marker(
-                [st.session_state.lat, st.session_state.lon],
-                popup=f"{st.session_state.loc_name}<br>{risk_text}",
-                tooltip=risk_text,
-                icon=folium.Icon(color=map_color, icon="info-sign")
-            ).add_to(m)
-            folium.Circle(
-                radius=2500,
-                location=[st.session_state.lat, st.session_state.lon],
-                color=map_color,
-                fill=True,
-                fill_opacity=0.25
-            ).add_to(m)
-            st_folium(m, width=700, height=400, key="risk_map")
+            lat = st.session_state.lat
+            lon = st.session_state.lon
+
+            map_html = f"""
+            <iframe
+                width="100%"
+                height="450"
+                style="border:0; border-radius: 10px;"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q={lat},{lon}&hl=en&z=14&output=embed">
+            </iframe>
+            """
+            st.components.v1.html(map_html, height=470)
+
+            st.caption(f"📍 Coordinates: {lat:.5f}, {lon:.5f} | Risk: {risk_text}")
         else:
             st.info(t["map_info"])
 
