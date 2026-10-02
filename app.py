@@ -27,47 +27,7 @@ if "lon" not in st.session_state:
 if "loc_name" not in st.session_state:
     st.session_state.loc_name = ""
 
-# ====================== INTRO PAGE ======================
-if st.session_state.show_intro:
-
-    st.markdown("""
-        <style>
-        .stApp {
-            background: linear-gradient(160deg, #0b0f1a 0%, #1a1f3a 40%, #2d1b3d 100%);
-        }
-        .intro-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            text-align: center;
-            background: linear-gradient(90deg, #ff6b35, #f7c948);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-top: 0.8rem;
-            margin-bottom: 0.2rem;
-        }
-        .intro-sub {
-            text-align: center;
-            font-size: 1.15rem;
-            color: #c8d0e0;
-            margin-bottom: 1rem;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="intro-title">⚠️ Bilal’s Sentinel</div>', unsafe_allow_html=True)
-    st.markdown('<div class="intro-sub">AI Landslide Early Warning System</div>', unsafe_allow_html=True)
-
-    try:
-        st.video("landslide_intro.mp4")
-    except Exception:
-        st.markdown("""
-            <div style="text-align:center; font-size:3rem; margin: 1.5rem 0;">
-                🏔️ 💥 🪨
-            </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("""
-        <p style="text-align:center; color:#9aa3b5; font-size:1rem; margin-top:0.8rem;">
+; margin-top:0.8rem;">
             Where the most relevant data is provided to alert you before disaster strikes.
         </p>
     """, unsafe_allow_html=True)
