@@ -363,26 +363,43 @@ elif page == "🔍 Risk Prediction":
                 </script>
             """, height=0)
 
-        # ====================== GOOGLE MAPS ======================
-        st.subheader(t["map"])
-        if st.session_state.lat and st.session_state.lon:
-            lat = st.session_state.lat
-            lon = st.session_state.lon
+        import streamlit.components.v1 as components
 
-            map_html = f"""
-            <iframe
-                width="100%"
-                height="450"
-                style="border:0; border-radius: 12px;"
-                loading="lazy"
-                allowfullscreen
-                src="https://www.google.com/maps?q={lat},{lon}&hl=en&z=14&output=embed">
-            </iframe>
-            """
-            components.html(map_html, height=470)
-            st.caption(f"📍 Coordinates: {lat:.5f}, {lon:.5f} | Risk: {risk_text}")
-        else:
-            st.info(t["map_info"])
+# ====================== GOOGLE MAP ======================
+st.subheader(t["map"])
+
+if st.session_state.lat and st.session_state.lon:
+    lat = st.session_state.lat
+    lon = st.session_state.lon
+
+    c1, c2 = st.columns([2, 1])
+    with c1:
+        map_type = st.radio(
+            "Map type", ["Map", "Satellite", "Terrain"], horizontal=True
+        )
+    with c2:
+        zoom = st.slider("Zoom", 5, 20, 14)
+
+    type_code = {"Map": "m", "Satellite": "k", "Terrain": "p"}[map_type]
+
+    map_html = f"""
+    <iframe
+        width="100%"
+        height="450"
+        style="border:0; border-radius:10px;"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q={lat},{lon}&hl=en&z={zoom}&t={type_code}&output=embed">
+    </iframe>
+    """
+    components.html(map_html, height=470)
+
+    st.caption(f"📍 {lat:.5f}, {lon:.5f}")
+    st.link_button(
+        "Open in Google Maps",
+        f"https://www.google.com/maps?q={lat},{lon}",
+    )
 
 # ====================== PAGE 3: SAFETY GUIDELINES ======================
 elif page == "🛡️ Safety Guidelines":
