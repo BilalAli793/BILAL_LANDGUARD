@@ -363,9 +363,55 @@ elif page == "🔍 Risk Prediction":
                 </script>
             """, height=0)
 
-        import streamlit.components.v1 as components
+        
+        # ====================== GOOGLE MAP + SEARCH ======================
+import requests
+import streamlit.components.v1 as components
+from streamlit_searchbox import st_searchbox
 
-# ====================== GOOGLE MAP ======================
+# session defaults
+if "lat" not in st.session_state:
+    st.session_state.lat = None
+    st.session_state.lon = None
+if "place_name" not in st.session_state:
+    st.session_state.place_name = ""
+
+
+def search_places(query: str):
+    if not query or len(query) < 3:
+        return []
+    try:
+        r = requests.get(
+            "https://photon.komoot.io/api/",
+            params={"q": query, "limit": 8},
+            timeout=5,
+        )
+        results = []
+        for f in r.json().get("features", []):
+            p = f["properties"]
+            lon, lat = f["geometry"]["coordinates"]
+            parts = [
+                p.get("name"),
+                p.get("city") or p.get("county"),
+                p.get("state"),
+                p.get("country"),
+            ]
+            label = ", ".join(x for x in parts if x)
+            results.append((label, (lat, lon, label)))
+        return results
+    except Exception:
+        return []
+
+
+st.subheader("🔍 Search Location")
+selected = st_searchbox(
+    search_places,
+    key="place_search",
+    placeholder="Type any place, city, village or landmark...",
+)
+if selected:
+    st.session_state.lat, st.session_state.lon, st.session_state.place_name = selected
+
 st.subheader(t["map"])
 
 if st.session_state.lat and st.session_state.lon:
@@ -395,11 +441,13 @@ if st.session_state.lat and st.session_state.lon:
     """
     components.html(map_html, height=470)
 
-    st.caption(f"📍 {lat:.5f}, {lon:.5f}")
+    st.caption(f"📍 {st.session_state.place_name} ({lat:.5f}, {lon:.5f})")
     st.link_button(
         "Open in Google Maps",
         f"https://www.google.com/maps?q={lat},{lon}",
     )
+else:
+    st.info("Upar search box me koi location search karo.")
 
 # ====================== PAGE 3: SAFETY GUIDELINES ======================
 elif page == "🛡️ Safety Guidelines":
