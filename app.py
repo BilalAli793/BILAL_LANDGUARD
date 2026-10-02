@@ -495,4 +495,20 @@ elif page == "🚨 Emergency Actions":
         st.error("""
         - Do not go near slope edge  
         - Do not shelter under trees on slope  
-        - Do not drive on cr
+        - Do not drive on cracked roads  
+        - Do not return until safe  
+        - Do not spread rumours  
+        """)
+
+    st.markdown("---")
+    st.subheader("📞 Helpline Numbers (India)")
+    st.write("""
+    - **National Emergency:** 112  
+    - **Disaster Management:** 1078 / 1070  
+    - **Police:** 100  
+    - **Ambulance:** 108 / 102  
+    - **Fire:** 101  
+    """)
+
+st.markdown("---")
+st.caption("Bilal’s Sentinel | Developed by Bilal Ali | SIH 2026")
