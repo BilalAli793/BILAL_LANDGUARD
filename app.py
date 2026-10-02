@@ -450,7 +450,7 @@ else:
     st.info("Upar search box me koi location search karo.")
 
 # ====================== PAGE 3: SAFETY GUIDELINES ======================
-elif page == "🛡️ Safety Guidelines":
+else page == "🛡️ Safety Guidelines":
     st.title("🛡️ Safety Guidelines")
     st.markdown("What to do **before, during and after** a landslide.")
     st.markdown("---")
