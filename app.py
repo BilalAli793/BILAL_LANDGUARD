@@ -12,6 +12,8 @@ st.set_page_config(
 )
 
 # ====================== SESSION STATE ======================
+if "show_intro" not in st.session_state:
+    st.session_state.show_intro = True
 if "predicted" not in st.session_state:
     st.session_state.predicted = False
 if "prediction" not in st.session_state:
@@ -25,7 +27,62 @@ if "lon" not in st.session_state:
 if "loc_name" not in st.session_state:
     st.session_state.loc_name = ""
 
-# ====================== TRANSLATIONS (ALL PAGES) ======================
+# ====================== INTRO PAGE ======================
+if st.session_state.show_intro:
+
+    st.markdown("""
+        <style>
+        .stApp {
+            background: linear-gradient(160deg, #0b0f1a 0%, #1a1f3a 40%, #2d1b3d 100%);
+        }
+        .intro-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(90deg, #ff6b35, #f7c948);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+        .intro-sub {
+            text-align: center;
+            font-size: 1.15rem;
+            color: #c8d0e0;
+            margin-bottom: 1rem;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="intro-title">⚠️ Bilal’s Sentinel</div>', unsafe_allow_html=True)
+    st.markdown('<div class="intro-sub">AI Landslide Early Warning System</div>', unsafe_allow_html=True)
+
+    try:
+        st.video("landslide_intro.mp4")
+    except Exception:
+        st.markdown("""
+            <div style="text-align:center; font-size:3rem; margin: 1.5rem 0;">
+                🏔️ 💥 🪨
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <p style="text-align:center; color:#9aa3b5; font-size:1rem; margin-top:0.8rem;">
+            Where the most relevant data is provided to alert you before disaster strikes.
+        </p>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1.2, 2, 1.2])
+    with col2:
+        if st.button("🚀 Enter App  —  Skip Intro", use_container_width=True, type="primary"):
+            st.session_state.show_intro = False
+            st.rerun()
+
+    st.caption("Developed by Bilal Ali  |  CSE, KMCLU  |  SIH 2026")
+    st.stop()
+
+# ====================== TRANSLATIONS ======================
 translations = {
     "English": {
         "app_title": "⚠️ Bilal’s Sentinel",
@@ -41,10 +98,10 @@ translations = {
         "home_card2": "🤖 **AI Prediction**\n\nRandom Forest model using rainfall, slope, moisture & elevation.",
         "home_card3": "🔊 **Voice + Guidance**\n\nSpoken alerts and clear safety instructions.",
         "home_why": "### Why this system?",
-        "home_why_text": "Every year landslides cause loss of life and property in hilly regions of India (Uttarakhand, Himachal Pradesh, Northeast, Western Ghats). An early warning system based on simple environmental parameters can help people and authorities take timely action and save lives.",
+        "home_why_text": "Every year landslides cause loss of life and property in hilly regions of India (Uttarakhand, Himachal, Northeast, Western Ghats). An early warning system can help save lives.",
         "home_how": "### How to use",
-        "home_how_text": "1. Go to **Risk Prediction** page\n2. Enter a location (example: Gangtok, Darjeeling, Manali)\n3. Adjust Rainfall, Slope, Soil Moisture, Elevation\n4. Click **Predict Risk & Show Map**\n5. See result + Google Map + safety guidance",
-        "home_go": "👉 Open **Risk Prediction** page from the left sidebar to try the system.",
+        "home_how_text": "1. Go to **Risk Prediction** page\n2. Enter a location\n3. Adjust parameters\n4. Click Predict\n5. See result + Google Map + guidance",
+        "home_go": "👉 Open **Risk Prediction** from the left sidebar.",
         "location": "📍 Enter Location",
         "placeholder": "Example: Gangtok, Darjeeling, Manali, Shimla",
         "params": "🔢 Environmental Parameters",
@@ -73,16 +130,16 @@ translations = {
         "safety_title": "🛡️ Safety Guidelines",
         "safety_sub": "What to do **before, during and after** a landslide.",
         "safety_1": "1️⃣ Before a Landslide (Preparedness)",
-        "safety_1_text": "- Know whether your area is landslide-prone\n- Prepare emergency kit (torch, water, first-aid, documents, power bank)\n- Save emergency contact numbers\n- Avoid building/staying on steep unstable slopes\n- Maintain vegetation on slopes\n- Follow IMD and local rainfall warnings",
+        "safety_1_text": "- Know if your area is landslide-prone\n- Prepare emergency kit\n- Save emergency numbers\n- Avoid steep unstable slopes\n- Follow IMD warnings",
         "safety_2": "2️⃣ When Landslide is About to Happen",
-        "safety_2_text": "**Act Fast:**\n- Move immediately to higher safer ground\n- Stay away from slopes, valleys and streams\n- Do not waste time collecting belongings\n- Alert neighbours and help children & elderly\n- Listen to official alerts",
+        "safety_2_text": "**Act Fast:**\n- Move to higher safer ground\n- Stay away from slopes and streams\n- Help children & elderly\n- Listen to official alerts",
         "safety_3": "3️⃣ After a Landslide",
-        "safety_3_text": "- Stay away from the slide area\n- Check for injured and give first aid if trained\n- Report to disaster management / police\n- Do not drink water from nearby streams\n- Wait for official clearance before returning",
-        "safety_gold": "**Golden Rule:** Life first. If ground is moving or you hear rumbling, leave immediately.",
+        "safety_3_text": "- Stay away from the slide area\n- Check for injured\n- Report to authorities\n- Do not drink stream water\n- Wait for official clearance",
+        "safety_gold": "**Golden Rule:** Life first. If ground is moving, leave immediately.",
         "emg_title": "🚨 Emergency Actions",
         "emg_sub": "If a landslide is about to happen — **what should you do first?**",
         "emg_first": "### 🔴 FIRST PRIORITY — SAVE LIFE",
-        "emg_first_text": "1. Evacuate immediately to higher safer ground\n2. Do not wait to collect valuables\n3. Help children, elderly and differently-abled first\n4. Move away from the slope direction\n5. Call emergency numbers",
+        "emg_first_text": "1. Evacuate to higher safer ground\n2. Do not wait for valuables\n3. Help children & elderly first\n4. Move away from slope\n5. Call emergency numbers",
         "emg_dos": "Do’s ✅",
         "emg_dos_text": "- Move to higher ground fast\n- Stay with family\n- Follow official instructions\n- Keep phone charged\n- Wear sturdy shoes",
         "emg_donts": "Don’ts ❌",
@@ -104,12 +161,12 @@ translations = {
         "home_card2": "🤖 **एआई प्रेडिक्शन**\n\nवर्षा, ढलान, नमी और ऊंचाई पर आधारित मॉडल।",
         "home_card3": "🔊 **वॉइस + गाइडेंस**\n\nबोलकर अलर्ट और स्पष्ट सुरक्षा निर्देश।",
         "home_why": "### यह सिस्टम क्यों?",
-        "home_why_text": "हर साल भारत के पहाड़ी क्षेत्रों (उत्तराखंड, हिमाचल, पूर्वोत्तर, पश्चिमी घाट) में लैंडस्लाइड से जान-माल का नुकसान होता है। सरल पर्यावरणीय पैरामीटर पर आधारित अर्ली वार्निंग सिस्टम लोगों और अधिकारियों को समय पर कार्रवाई करने में मदद कर सकता है।",
+        "home_why_text": "हर साल भारत के पहाड़ी क्षेत्रों में लैंडस्लाइड से जान-माल का नुकसान होता है। अर्ली वार्निंग सिस्टम जान बचा सकता है।",
         "home_how": "### कैसे इस्तेमाल करें",
-        "home_how_text": "1. **जोखिम अनुमान** पेज पर जाएं\n2. लोकेशन डालें (जैसे: गंगटोक, दार्जिलिंग, मनाली)\n3. वर्षा, ढलान, नमी, ऊंचाई सेट करें\n4. **Predict** बटन दबाएं\n5. परिणाम + Google Map + सुरक्षा गाइड देखें",
-        "home_go": "👉 बाएं साइडबार से **जोखिम अनुमान** पेज खोलें।",
+        "home_how_text": "1. **जोखिम अनुमान** पेज पर जाएं\n2. लोकेशन डालें\n3. पैरामीटर सेट करें\n4. Predict दबाएं\n5. परिणाम + मैप देखें",
+        "home_go": "👉 बाएं साइडबार से **जोखिम अनुमान** खोलें।",
         "location": "📍 लोकेशन दर्ज करें",
-        "placeholder": "उदाहरण: गंगटोक, दार्जिलिंग, मनाली, शिमला",
+        "placeholder": "उदाहरण: गंगटोक, दार्जिलिंग, मनाली",
         "params": "🔢 पर्यावरणीय पैरामीटर",
         "rainfall": "🌧️ वर्षा (मिमी)",
         "slope": "📐 ढलान कोण (डिग्री)",
@@ -118,54 +175,49 @@ translations = {
         "button": "🔍 जोखिम का अनुमान लगाएं और मैप दिखाएं",
         "result": "📊 भविष्यवाणी परिणाम",
         "high_risk": "🚨 लैंडस्लाइड का उच्च जोखिम पाया गया",
-        "low_risk": "✅ कम जोखिम — स्थिति वर्तमान में स्थिर है",
+        "low_risk": "✅ कम जोखिम — स्थिति स्थिर है",
         "probability": "जोखिम की संभावना",
         "actions": "तत्काल कार्रवाई",
         "action1": "ढलान और निचले क्षेत्रों से लोगों को निकालें",
-        "action2": "स्थानीय आपदा प्रबंधन प्राधिकरण को सूचित करें",
+        "action2": "स्थानीय आपदा प्रबंधन को सूचित करें",
         "action3": "पहाड़ी सड़कों पर यात्रा से बचें",
-        "action4": "वर्षा की लगातार निगरानी करें",
+        "action4": "वर्षा की निगरानी करें",
         "status": "वर्तमान स्थिति",
-        "status1": "स्थितियां सुरक्षित सीमा के भीतर हैं",
+        "status1": "स्थितियां सुरक्षित हैं",
         "status2": "नियमित निगरानी जारी रखें",
-        "status3": "भारी बारिश के दौरान सतर्क रहें",
+        "status3": "भारी बारिश में सतर्क रहें",
         "map": "🗺️ लोकेशन मैप (Google Maps)",
-        "map_info": "मैप देखने के लिए मान्य लोकेशन नाम दर्ज करें।",
-        "voice_danger": "चेतावनी! लैंडस्लाइड का उच्च जोखिम पाया गया है। कृपया तुरंत कार्रवाई करें।",
-        "voice_safe": "आप सुरक्षित हैं। स्थिति वर्तमान में स्थिर है।",
+        "map_info": "मान्य लोकेशन दर्ज करें।",
+        "voice_danger": "चेतावनी! लैंडस्लाइड का उच्च जोखिम पाया गया है।",
+        "voice_safe": "आप सुरक्षित हैं। स्थिति स्थिर है।",
         "safety_title": "🛡️ सुरक्षा दिशानिर्देश",
-        "safety_sub": "लैंडस्लाइड **से पहले, दौरान और बाद** में क्या करें।",
-        "safety_1": "1️⃣ लैंडस्लाइड से पहले (तैयारी)",
-        "safety_1_text": "- जानें कि आपका क्षेत्र जोखिम भरा है या नहीं\n- इमरजेंसी किट तैयार रखें (टॉर्च, पानी, फर्स्ट-एड, दस्तावेज)\n- इमरजेंसी नंबर सेव करें\n- ढलान पर घर बनाने/रहने से बचें\n- ढलान पर पेड़-पौधे बनाए रखें\n- आईएमडी और स्थानीय चेतावनियों का पालन करें",
+        "safety_sub": "लैंडस्लाइड से पहले, दौरान और बाद में क्या करें।",
+        "safety_1": "1️⃣ लैंडस्लाइड से पहले",
+        "safety_1_text": "- क्षेत्र का जोखिम जानें\n- इमरजेंसी किट तैयार रखें\n- नंबर सेव करें\n- ढलान पर न रहें\n- आईएमडी चेतावनी सुनें",
         "safety_2": "2️⃣ जब लैंडस्लाइड आने वाला हो",
-        "safety_2_text": "**तुरंत कार्रवाई करें:**\n- ऊंची और सुरक्षित जगह पर जाएं\n- ढलान, घाटी और नालों से दूर रहें\n- सामान इकट्ठा करने में समय बर्बाद न करें\n- पड़ोसियों को अलर्ट करें, बच्चों और बुजुर्गों की मदद करें\n- आधिकारिक अलर्ट सुनें",
+        "safety_2_text": "**तुरंत:**\n- ऊंची जगह जाएं\n- ढलान से दूर रहें\n- बच्चों-बुजुर्गों की मदद करें\n- आधिकारिक अलर्ट सुनें",
         "safety_3": "3️⃣ लैंडस्लाइड के बाद",
-        "safety_3_text": "- स्लाइड वाले इलाके से दूर रहें\n- घायलों की जांच करें और ट्रेन्ड हों तो फर्स्ट-एड दें\n- आपदा प्रबंधन/पुलिस को सूचित करें\n- पास की नदियों का पानी न पिएं\n- आधिकारिक मंजूरी के बाद ही घर लौटें",
-        "safety_gold": "**सुनहरा नियम:** पहले जान। अगर जमीन हिल रही हो या आवाज आ रही हो तो तुरंत निकल जाएं।",
+        "safety_3_text": "- स्लाइड इलाके से दूर रहें\n- घायलों की मदद करें\n- अधिकारियों को बताएं\n- नाले का पानी न पिएं\n- मंजूरी के बाद लौटें",
+        "safety_gold": "**सुनहरा नियम:** पहले जान। जमीन हिले तो तुरंत निकलें।",
         "emg_title": "🚨 आपातकालीन कार्रवाई",
-        "emg_sub": "अगर लैंडस्लाइड आने वाला हो — **सबसे पहले क्या करें?**",
+        "emg_sub": "लैंडस्लाइड आने वाला हो तो सबसे पहले क्या करें?",
         "emg_first": "### 🔴 पहली प्राथमिकता — जान बचाएं",
-        "emg_first_text": "1. तुरंत ऊंची सुरक्षित जगह पर जाएं\n2. कीमती सामान लेने का इंतजार न करें\n3. बच्चों, बुजुर्गों और दिव्यांगों की पहले मदद करें\n4. ढलान की दिशा से दूर जाएं\n5. इमरजेंसी नंबर पर कॉल करें",
+        "emg_first_text": "1. ऊंची सुरक्षित जगह जाएं\n2. सामान का इंतजार न करें\n3. बच्चों-बुजुर्गों की मदद करें\n4. ढलान से दूर जाएं\n5. इमरजेंसी नंबर पर कॉल करें",
         "emg_dos": "क्या करें ✅",
-        "emg_dos_text": "- जल्दी ऊंची जगह पर जाएं\n- परिवार के साथ रहें\n- आधिकारिक निर्देशों का पालन करें\n- फोन चार्ज रखें\n- मजबूत जूते पहनें",
+        "emg_dos_text": "- जल्दी ऊंची जगह जाएं\n- परिवार के साथ रहें\n- निर्देशों का पालन करें\n- फोन चार्ज रखें\n- मजबूत जूते पहनें",
         "emg_donts": "क्या न करें ❌",
-        "emg_donts_text": "- ढलान के किनारे न जाएं\n- ढलान पर पेड़ों के नीचे न छुपें\n- टूटी सड़कों पर गाड़ी न चलाएं\n- सुरक्षित घोषित होने तक न लौटें\n- अफवाह न फैलाएं",
-        "emg_help": "📞 हेल्पलाइन नंबर (भारत)",
+        "emg_donts_text": "- ढलान किनारे न जाएं\n- पेड़ों के नीचे न छुपें\n- टूटी सड़क पर न चलें\n- सुरक्षित होने तक न लौटें\n- अफवाह न फैलाएं",
+        "emg_help": "📞 हेल्पलाइन (भारत)",
         "emg_help_text": "- **नेशनल इमरजेंसी:** 112\n- **आपदा प्रबंधन:** 1078 / 1070\n- **पुलिस:** 100\n- **एम्बुलेंस:** 108 / 102\n- **फायर:** 101"
     }
 }
 
-# Baaki 4 languages ke liye English fallback (code chota rakhne ke liye)
 for lang_name in ["Bengali", "Tamil", "Telugu", "Marathi"]:
     translations[lang_name] = translations["English"].copy()
 
 lang_codes = {
-    "English": "en-IN",
-    "Hindi": "hi-IN",
-    "Bengali": "bn-IN",
-    "Tamil": "ta-IN",
-    "Telugu": "te-IN",
-    "Marathi": "mr-IN"
+    "English": "en-IN", "Hindi": "hi-IN", "Bengali": "bn-IN",
+    "Tamil": "ta-IN", "Telugu": "te-IN", "Marathi": "mr-IN"
 }
 
 # ====================== SIDEBAR ======================
@@ -177,15 +229,11 @@ lang = st.sidebar.selectbox("🌐 Language / भाषा", ["English", "Hindi",
 t = translations[lang]
 current_lang_code = lang_codes.get(lang, "en-IN")
 
-page = st.sidebar.radio(
-    "Go to page",
-    [t["nav_home"], t["nav_risk"], t["nav_safety"], t["nav_emergency"]]
-)
+page = st.sidebar.radio("Go to page", [t["nav_home"], t["nav_risk"], t["nav_safety"], t["nav_emergency"]])
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Developed by Bilal Ali**")
-st.sidebar.markdown("CSE | KMCLU")
-st.sidebar.markdown("SIH 2026 | SIH26001")
+st.sidebar.markdown("CSE | KMCLU | SIH 2026")
 
 # ====================== PAGE 1: HOME ======================
 if page == t["nav_home"]:
@@ -195,12 +243,9 @@ if page == t["nav_home"]:
     st.markdown("---")
 
     c1, c2, c3 = st.columns(3)
-    with c1:
-        st.info(t["home_card1"])
-    with c2:
-        st.success(t["home_card2"])
-    with c3:
-        st.warning(t["home_card3"])
+    with c1: st.info(t["home_card1"])
+    with c2: st.success(t["home_card2"])
+    with c3: st.warning(t["home_card3"])
 
     st.markdown(t["home_why"])
     st.write(t["home_why_text"])
@@ -208,7 +253,7 @@ if page == t["nav_home"]:
     st.write(t["home_how_text"])
     st.success(t["home_go"])
 
-# ====================== PAGE 2: RISK PREDICTION ======================
+# ====================== PAGE 2: RISK ======================
 elif page == t["nav_risk"]:
     st.title(t["app_title"])
     st.markdown(f"**{t['app_sub']}**")
@@ -243,7 +288,6 @@ elif page == t["nav_risk"]:
 
     st.markdown("---")
     st.subheader(t["params"])
-
     col1, col2 = st.columns(2)
     with col1:
         rainfall = st.slider(t["rainfall"], 0, 300, 120)
@@ -253,7 +297,6 @@ elif page == t["nav_risk"]:
         elevation = st.slider(t["elevation"], 100, 3000, 800)
 
     st.markdown("---")
-
     if st.button(t["button"], use_container_width=True, type="primary"):
         input_data = [[rainfall, slope, moisture, elevation]]
         st.session_state.prediction = int(model.predict(input_data)[0])
@@ -312,7 +355,6 @@ elif page == t["nav_safety"]:
     st.title(t["safety_title"])
     st.markdown(t["safety_sub"])
     st.markdown("---")
-
     st.subheader(t["safety_1"])
     st.write(t["safety_1_text"])
     st.subheader(t["safety_2"])
@@ -326,10 +368,8 @@ elif page == t["nav_emergency"]:
     st.title(t["emg_title"])
     st.markdown(t["emg_sub"])
     st.markdown("---")
-
     st.error(t["emg_first"])
     st.write(t["emg_first_text"])
-
     col1, col2 = st.columns(2)
     with col1:
         st.subheader(t["emg_dos"])
@@ -337,7 +377,6 @@ elif page == t["nav_emergency"]:
     with col2:
         st.subheader(t["emg_donts"])
         st.error(t["emg_donts_text"])
-
     st.markdown("---")
     st.subheader(t["emg_help"])
     st.write(t["emg_help_text"])
