@@ -27,9 +27,87 @@ if "lon" not in st.session_state:
 if "loc_name" not in st.session_state:
     st.session_state.loc_name = ""
 
-; margin-top:0.8rem;">
-            Where the most relevant data is provided to alert you before disaster strikes.
-        </p>
+# ====================== INTRO PAGE ======================
+if st.session_state.show_intro:
+
+    st.markdown("""
+        <style>
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        #MainMenu {visibility: hidden;}
+        .stApp { background: #0b0f1a; }
+
+        .intro-wrapper {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+        .intro-video {
+            width: 100%;
+            height: 55vh;
+            object-fit: cover;
+            display: block;
+        }
+        .intro-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+        .intro-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #ff6b35, #f7c948);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 0.4rem 0;
+            line-height: 1.2;
+        }
+        .intro-sub {
+            font-size: 1.15rem;
+            color: #e8ecf4;
+            margin: 0 0 0.8rem 0;
+            font-weight: 500;
+        }
+        .intro-tagline {
+            font-size: 0.95rem;
+            color: #b0b8c8;
+            max-width: 420px;
+            line-height: 1.5;
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .intro-title { font-size: 1.9rem; }
+            .intro-sub { font-size: 1rem; }
+            .intro-video { height: 45vh; }
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <div class="intro-wrapper">
+            <video class="intro-video" autoplay muted loop playsinline>
+                <source src="https://raw.githubusercontent.com/BilalAli793/BILAL_LANDGUARD/main/landslide_intro.mp4" type="video/mp4">
+            </video>
+            <div class="intro-overlay">
+                <div class="intro-title">⚠️ Bilal’s Sentinel</div>
+                <div class="intro-sub">AI Landslide Early Warning System</div>
+                <div class="intro-tagline">
+                    Where the most relevant data is provided to alert you<br>
+                    before disaster strikes.
+                </div>
+            </div>
+        </div>
     """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -39,7 +117,11 @@ if "loc_name" not in st.session_state:
             st.session_state.show_intro = False
             st.rerun()
 
-    st.caption("Developed by Bilal Ali  |  CSE, KMCLU  |  SIH 2026")
+    st.markdown("""
+        <p style="text-align:center; color:#6a7385; font-size:0.85rem; margin-top:1rem;">
+            Developed by Bilal Ali  |  CSE, KMCLU  |  SIH 2026
+        </p>
+    """, unsafe_allow_html=True)
     st.stop()
 
 # ====================== TRANSLATIONS ======================
